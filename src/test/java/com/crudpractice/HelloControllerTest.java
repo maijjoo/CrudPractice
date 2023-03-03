@@ -9,9 +9,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.hamcrest.Matchers.is;
 
 /*
 @RunWith
@@ -47,5 +46,18 @@ public class HelloControllerTest {
                                                           // 여기선 Ok(200) 인지 아닌지 검증
                 .andExpect(content().string(hello));      // GET 요청한 주소의 Content 와
                                                           // 위에서 선언한 테스트문구가 일치하는지 검증
+    }
+
+    @Test
+    public void returnHelloDto() throws Exception {
+        String name = "hello";
+        int amount = 100;
+
+        mvc.perform(get("/hello/dto")
+                .param("name", name)                                // API 테스트에 사용될 요청 파라미터 설정
+                .param("amount", String.valueOf(amount)))           // String 만 허용되기 때문에 int 형인 amount 를 형변환
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.name", is(name)))        // JSON 응답값을 필드별로 검증
+                .andExpect(jsonPath("$.amount", is(amount)));
     }
 }
