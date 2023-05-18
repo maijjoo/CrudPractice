@@ -1,5 +1,7 @@
 package com.crudpractice.domain.posts;
 
+import com.crudpractice.domain.BaseTimeEntity;
+import com.fasterxml.jackson.databind.ser.Serializers;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,7 +11,7 @@ import javax.persistence.*;
 @Getter
 @NoArgsConstructor
 @Entity                     // 테이블과 링크될 클래스임을 나타내는 어노테이션
-public class Posts {
+public class Posts extends BaseTimeEntity {
 
     @Id                                                     // 해당 테이블의 PK 필드
     @GeneratedValue(strategy = GenerationType.IDENTITY)     // PK 의 생성규칙 (IDENTITY, AUTO, SEQUENCE, TABLE)
